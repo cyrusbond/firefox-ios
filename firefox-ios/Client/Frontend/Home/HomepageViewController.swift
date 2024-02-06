@@ -195,6 +195,17 @@ class HomepageViewController:
         }
     }
 
+<<<<<<< HEAD
+=======
+    // Displays or hides the private mode toggle button in the header
+    // Depends on feature flag and if user is on iPhone
+    private func updateHeaderToShowPrivateModeToggle() {
+        let featureFlagOn = featureFlags.isFeatureEnabled(.feltPrivacySimplifiedUI, checking: .buildOnly)
+        let showToggle = featureFlagOn && !shouldUseiPadSetup()
+        viewModel.headerViewModel.showiPadSetup = !showToggle
+    }
+
+>>>>>>> 01e41e342 (Add FXIOS-8372 [v123.1] Proper logo header for compact sizes (#18595))
     // MARK: - Layout
 
     func configureCollectionView() {

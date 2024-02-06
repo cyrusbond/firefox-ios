@@ -55,6 +55,15 @@ final class PrivateHomepageViewController: UIViewController, ContentContainable,
 
     private let scrollView: UIScrollView = .build()
 
+    private var headerViewModel: HomepageHeaderCellViewModel {
+        return HomepageHeaderCellViewModel(
+            isPrivate: true,
+            showiPadSetup: shouldUseiPadSetup(),
+            action: { [weak self] in
+                self?.parentCoordinator?.switchMode()
+            })
+    }
+
     private lazy var scrollContainer: UIStackView = .build { stackView in
         stackView.axis = .vertical
         stackView.spacing = UX.scrollContainerStackSpacing
@@ -72,10 +81,18 @@ final class PrivateHomepageViewController: UIViewController, ContentContainable,
         return messageCard
     }()
 
+<<<<<<< HEAD
     private lazy var logoHeaderCell: HomeLogoHeaderCell = {
         let logoHeader = HomeLogoHeaderCell()
         logoHeader.applyTheme(theme: themeManager.currentTheme)
         return logoHeader
+=======
+    private lazy var homepageHeaderCell: HomepageHeaderCell = {
+        let header = HomepageHeaderCell()
+        header.applyTheme(theme: themeManager.currentTheme)
+        header.configure(with: headerViewModel)
+        return header
+>>>>>>> 01e41e342 (Add FXIOS-8372 [v123.1] Proper logo header for compact sizes (#18595))
     }()
 
     init(themeManager: ThemeManager = AppContainer.shared.resolve(),
@@ -107,6 +124,14 @@ final class PrivateHomepageViewController: UIViewController, ContentContainable,
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         updateConstraintsForMultitasking()
+<<<<<<< HEAD
+=======
+        if previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass
+            || previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass {
+            homepageHeaderCell.configure(with: headerViewModel)
+        }
+        applyTheme()
+>>>>>>> 01e41e342 (Add FXIOS-8372 [v123.1] Proper logo header for compact sizes (#18595))
     }
 
     private func setupLayout() {

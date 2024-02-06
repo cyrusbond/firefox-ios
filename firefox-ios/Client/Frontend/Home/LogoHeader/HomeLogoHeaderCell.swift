@@ -12,9 +12,16 @@ class HomeLogoHeaderCell: UICollectionViewCell, ReusableCell {
         struct Logo {
             static let iPhoneImageSize: CGFloat = 40
             static let iPadImageSize: CGFloat = 75
+<<<<<<< HEAD
             static let iPhoneTopConstant: CGFloat = 32
             static let iPadTopConstant: CGFloat = 70
             static let bottomConstant: CGFloat = -10
+=======
+
+            static func logoSizeConstant(for iPadSetup: Bool) -> CGFloat {
+                iPadSetup ? UX.Logo.iPadImageSize : UX.Logo.iPhoneImageSize
+            }
+>>>>>>> 01e41e342 (Add FXIOS-8372 [v123.1] Proper logo header for compact sizes (#18595))
         }
 
         struct TextImage {
@@ -23,6 +30,14 @@ class HomeLogoHeaderCell: UICollectionViewCell, ReusableCell {
             static let iPhoneLeadingConstant: CGFloat = 9
             static let iPadLeadingConstant: CGFloat = 17
             static let trailingConstant: CGFloat = -15
+
+            static func textImageWidthConstant(for iPadSetup: Bool) -> CGFloat {
+                iPadSetup ? UX.TextImage.iPadWidth : UX.TextImage.iPhoneWidth
+            }
+
+            static func textImageSpacing(for iPadSetup: Bool) -> CGFloat {
+                iPadSetup ? UX.TextImage.iPadLeadingConstant : UX.TextImage.iPhoneLeadingConstant
+            }
         }
     }
 
@@ -38,7 +53,7 @@ class HomeLogoHeaderCell: UICollectionViewCell, ReusableCell {
         imageView.contentMode = .scaleAspectFit
     }
 
-    private lazy var containerView: UIView = .build { view in
+    private lazy var containerView: UIStackView = .build { view in
         view.backgroundColor = .clear
         view.accessibilityIdentifier = a11y.logoID
         view.accessibilityLabel = AppName.shortName.rawValue
@@ -49,7 +64,6 @@ class HomeLogoHeaderCell: UICollectionViewCell, ReusableCell {
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupView()
     }
 
     required init?(coder: NSCoder) {
@@ -57,12 +71,17 @@ class HomeLogoHeaderCell: UICollectionViewCell, ReusableCell {
     }
 
     // MARK: - UI Setup
-    func setupView() {
+    func configure(with showiPadSetup: Bool) {
+        setupView(with: showiPadSetup)
+    }
+
+    private func setupView(with showiPadSetup: Bool) {
         contentView.backgroundColor = .clear
-        containerView.addSubview(logoImage)
-        containerView.addSubview(logoTextImage)
+        containerView.addArrangedSubview(logoImage)
+        containerView.addArrangedSubview(logoTextImage)
         contentView.addSubview(containerView)
 
+<<<<<<< HEAD
         let isiPad = UIDevice.current.userInterfaceIdiom == .pad
         let logoSizeConstant = isiPad ? UX.Logo.iPadImageSize : UX.Logo.iPhoneImageSize
         let topAnchorConstant = isiPad ? UX.Logo.iPadTopConstant : UX.Logo.iPhoneTopConstant
@@ -88,22 +107,35 @@ class HomeLogoHeaderCell: UICollectionViewCell, ReusableCell {
                                                    constant: textImageLeadingAnchorConstant),
             logoTextImage.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             logoTextImage.centerYAnchor.constraint(equalTo: logoImage.centerYAnchor)
+=======
+        containerView.spacing = UX.TextImage.textImageSpacing(for: showiPadSetup)
+
+        NSLayoutConstraint.activate([
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+>>>>>>> 01e41e342 (Add FXIOS-8372 [v123.1] Proper logo header for compact sizes (#18595))
         ])
 
-        if isiPad {
-            NSLayoutConstraint.activate([
-                containerView.centerXAnchor.constraint(
-                    equalTo: contentView.centerXAnchor
-                ),
-            ])
-        } else {
-            NSLayoutConstraint.activate([
-                containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                containerView.trailingAnchor.constraint(
-                    lessThanOrEqualTo: contentView.trailingAnchor,
-                    constant: UX.TextImage.trailingConstant),
-            ])
+        setupConstraints(for: showiPadSetup)
+    }
+
+    private var logoConstraints = [NSLayoutConstraint]()
+
+    private func setupConstraints(for iPadSetup: Bool) {
+        NSLayoutConstraint.deactivate(logoConstraints)
+        logoConstraints = [
+            logoImage.widthAnchor.constraint(equalToConstant: UX.Logo.logoSizeConstant(for: iPadSetup)),
+            logoImage.heightAnchor.constraint(equalToConstant: UX.Logo.logoSizeConstant(for: iPadSetup)),
+            logoTextImage.widthAnchor.constraint(equalToConstant: UX.TextImage.textImageWidthConstant(for: iPadSetup)),
+            logoTextImage.heightAnchor.constraint(equalTo: logoImage.heightAnchor),
+        ]
+
+        if iPadSetup {
+            logoConstraints.append(
+                containerView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+            )
         }
+        NSLayoutConstraint.activate(logoConstraints)
     }
 }
 

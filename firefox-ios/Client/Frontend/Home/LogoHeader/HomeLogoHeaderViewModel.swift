@@ -13,6 +13,10 @@ class HomeLogoHeaderViewModel {
 
     private let profile: Profile
     var onTapAction: ((UIButton) -> Void)?
+<<<<<<< HEAD
+=======
+    var showiPadSetup = false
+>>>>>>> 01e41e342 (Add FXIOS-8372 [v123.1] Proper logo header for compact sizes (#18595))
     var theme: Theme
 
     init(profile: Profile, theme: Theme) {
@@ -71,8 +75,22 @@ extension HomeLogoHeaderViewModel: HomepageViewModelProtocol, FeatureFlaggable {
 
 extension HomeLogoHeaderViewModel: HomepageSectionHandler {
     func configure(_ cell: UICollectionViewCell, at indexPath: IndexPath) -> UICollectionViewCell {
+<<<<<<< HEAD
         guard let logoHeaderCell = cell as? HomeLogoHeaderCell else { return UICollectionViewCell() }
         logoHeaderCell.applyTheme(theme: theme)
         return logoHeaderCell
+=======
+        guard let headerCell = cell as? HomepageHeaderCell else { return UICollectionViewCell() }
+        headerCell.configure(
+            with: HomepageHeaderCellViewModel(
+                isPrivate: false,
+                showiPadSetup: showiPadSetup,
+                action: { [weak self] in
+                    self?.tabManager.switchPrivacyMode()
+                })
+        )
+        headerCell.applyTheme(theme: theme)
+        return headerCell
+>>>>>>> 01e41e342 (Add FXIOS-8372 [v123.1] Proper logo header for compact sizes (#18595))
     }
 }
