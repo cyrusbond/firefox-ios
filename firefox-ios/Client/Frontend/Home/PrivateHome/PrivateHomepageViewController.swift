@@ -55,6 +55,19 @@ final class PrivateHomepageViewController: UIViewController, ContentContainable,
 
     private let scrollView: UIScrollView = .build()
 
+<<<<<<< HEAD
+=======
+    private var headerViewModel: HomepageHeaderCellViewModel {
+        return HomepageHeaderCellViewModel(
+            isPrivate: true,
+            showiPadSetup: shouldUseiPadSetup(),
+            showPrivateModeToggle: !shouldUseiPadSetup(),
+            action: { [weak self] in
+                self?.parentCoordinator?.switchMode()
+            })
+    }
+
+>>>>>>> 34ce253ab (Bugfix [v123.1] Logo header with experiment off (#18651))
     private lazy var scrollContainer: UIStackView = .build { stackView in
         stackView.axis = .vertical
         stackView.spacing = UX.scrollContainerStackSpacing
