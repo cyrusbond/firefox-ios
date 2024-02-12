@@ -22,7 +22,7 @@ class GleanPlumbMessageManagerTests: XCTestCase {
         messagingStore = MockGleanPlumbMessageStore(messageId: messageId)
         applicationHelper = MockApplicationHelper()
         subject = GleanPlumbMessageManager(
-            helperUtility: MockNimbusMessagingHelperUtility(),
+            createMessagingHelper: MockNimbusMessagingHelperUtility(),
             messagingStore: messagingStore,
             applicationHelper: applicationHelper,
             messagingFeature: FxNimbus.shared.features.messaging
