@@ -236,7 +236,7 @@
       "channel": "release",
       "userFacingName": "Set to Default reminder notification for iOS",
       "userFacingDescription": "This experiment will test a notification reminding users to set Firefox as their default browser.",
-      "isEnrollmentPaused": false,
+      "isEnrollmentPaused": true,
       "isRollout": false,
       "bucketConfig": {
         "randomizationUnit": "nimbus_id",
@@ -328,7 +328,7 @@
       ],
       "targeting": "((is_already_enrolled) || ((isFirstRun == 'true') && (app_version|versionCompare('120.!') >= 0) && (language in ['en'])))",
       "startDate": "2024-01-23",
-      "enrollmentEndDate": null,
+      "enrollmentEndDate": "2024-02-14",
       "endDate": null,
       "proposedDuration": 43,
       "proposedEnrollment": 14,
